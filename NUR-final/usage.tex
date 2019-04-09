@@ -1,0 +1,6 @@
+\section*{Code Introduction}
+
+The code throughout this paper consists of 13 python files. There are 12 exercises and each exercise has it's own python code. In addition, there is a python code that consists of a class called \texttt{functions}. This class contains functions that are used for multiple exercises, and thus it makes it easier to import the functions than to write them over and over again in each exercise python file. \\
+In the next sections, parts of this function file will be shown, though the instantiation operation function is not shown over and over again. Therefore, it is shown in this section such that the complete python files are shown in this paper,
+\lstinputlisting[firstline=1,lastline=28]{functions.py}
+To make sure that the seed has to be initialized only once in this entire program, the seed is updated every time the random number generated is used. These instances are then saved to a pickle file called \texttt{instances.pkl}, every time the seed (\texttt{self.x}) is updated. This method makes it also easier to use the same $a$, $b$, $c$, and $A$ (\texttt{self.d1}, \texttt{self.d2}, \texttt{self.d3}, and \texttt{self.A}) values in all the exercises as well, since all the instances are saved at once in the pickle file. So these values have to be generated just one time and the entire program will use these values during the run.

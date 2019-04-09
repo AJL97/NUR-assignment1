@@ -1,0 +1,30 @@
+\subsection{Parameters vs. Mass}
+The found $a$, $b$, and $c$ values might show some correlation with mass. These values can be plotted against the mass to see if there is some relation. This plot is shown in figure 7.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{plots/abc_m.png}
+\caption{The $a$, $b$, and $c$ parameters plotted against the halo mass. The x-axis is in logarithmic scale.}
+\end{figure}
+The figure does seem to show some correlation between the parameters and the halo masses. With a logarithmic x-scale this relation seems to be linear. Thus creating the functions,
+\begin{gather}
+a = \alpha\log(m) + \beta\\
+b = -\gamma\log(m) + \zeta\\
+c = -\chi\log(m) + \xi
+\end{gather}
+where $\alpha$, $\beta$, $\gamma$, $\zeta$, $\chi$, and $\xi$ are constants, and $a$, $b$, and $c$ are simply the parameters from before. There are two options for finding the line that connects the points. The first one is simple interpolation. However, looking at the found data points, interpolation might not seem to be the best idea for line fitting since there are most likely some errors on the parameters, since they are scattered around a bit instead of showing straight lines. The other option is to fit the function according to the expected functions (eq. 12-14). This fit can be done with the use of the least-squares method. The assumption that has to be made is then that the $a$, $b$, and $c$ parameters are distributed as a gaussian around the fitted line. The least square method is done in log-linear space such that equations 12-14 can be used. Using the relative errors found in the previous section, the function minimization can easily be done using the downhill simplex method again. Using the least square method the function that has to be minimized is,
+
+\begin{equation}
+-\ln(\mathcal{L}) = \sum_{i=0}^{N-1} \left(\frac{y_i - y(x_i|\mathbf{p})}{\sigma_i}\right)^2
+\end{equation}
+where $y_i$ are the found $a$, $b$, and $c$ values, $y(x_i|\mathbf{p})$ is the model (in this case the functions eq. 12 - 14), and $\sigma_i$ is the relative error of data point $y_i$, as found in the previous question. The relative errors may be used in this case because the factors that would make the actual errors would cancel out. \\
+The code that has been used is shown below,
+\lstinputlisting{Q3b.py}
+\lstinputlisting[firstline=891,lastline=893]{functions.py}
+The code outputs a graph of the given data points together with the estimated fits.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{plots/fit_abc.png}
+\caption{The $a$, $b$, and $c$ parameters plotted against the halo mass, together with the fits that have been produced for each parameter vs. mass. The x-axis is in logarithmic scale.}
+\end{figure}
+The fits for the parameters seem to be quite reasonable. It can be seen from the graph that there are quite some deviations from the fit. The fit for parameter $a$ is quite off at the first point, this could indicate that the negative log-likelihood of the first point is less steep compared to the other parameters and thus has a bigger relative error on it. All fits seem to be closest to the 4th halo mass point, indicating that this points might has the steepest negative-log-likelihood, and is therefore also most accurate. 

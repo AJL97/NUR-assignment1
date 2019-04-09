@@ -1,0 +1,23 @@
+\subsection{Interpolation}
+Given the data points $n(10^{-4})$, $n(10^{-2})$, $n(10^{-1})$, $n(1)$, and $n(5)$, it is possible to interpolate between these values to get an indication of how the density function might look like for given random values $a$, $b$, and $c$. First, let's take a look at how the data points are distributed on a logarithmic scale (since the x-values are quite far apart for the larger values), see figure 3.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.45]{./plots/data_points.png}
+\label{data_points}
+\caption{Given data points that are on the function $n(x)$ in a log-log plot}
+\end{figure}
+\newpage
+Taking a quick look at the distribution of data points in log space it seems as if the first four data points are linearly distributed in logspace. The fifth point shows an extreem sudden drop indicating that the function goes to zero very rapidly after the fourth data point. Therefore, the most interesting part of the function seems to be the first part, the first four given data points. Since these seem to show a linear correlation in logspace it is best to interpolate these points linearly as well in logspace. However, the fourth point to the fifth point is most probably not interpolated best with a linear interpolator. For that reason, the data points are also interpolated polynomial and with the natural spline in the code, just to check out how they drop of at this particular part. The polynomial method makes use of Neville's algorithm and assumes that the given data points are a $n^{th}$ order polynomial, with $n$ the number of given data points. The natural spline interpolation assumes that the interpolated data in between two given data points goes as a 3rd order polynomial, and that the second derivatives at the two end points of the given data are equal to zero. This gives for spline interpolation a system of 3rd order polynomials that has to be solved. In this paper this system is solved with the use of matrices.\\
+The code used in this exercise is given below
+
+\lstinputlisting{Q2b.py}
+\lstinputlisting[firstline=166,lastline=352]{functions.py}
+The output of this code is a graph with all the interpolation methods in one plot,
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{./plots/interpolation.png}
+\caption{Various interpolation methods on the given data points, where the blue line is natural spline interpolation, the red line is polynomial interpolation, using Neville's algorithm, and the green line is linear interpolation.}
+\end{figure}
+
+It can be seen from this figure that linear interpolation does indeed fit better between the first four points, given only these data points. However, it might be more realistic to have a smoother drop of between the fourth and the fifth data point. The polynomial interpolation method works best for that. All in all, these data points are best interpolated with a linear interpolator since the most important data points are fitted best with this method.

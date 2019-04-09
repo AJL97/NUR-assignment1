@@ -1,0 +1,13 @@
+\subsection{Trilinear Interpolation}
+
+The normalization factor $A$ depends on the three parameters $a$, $b$, and $c$, as can be seen from equation 8. It is possible to generate a three dimensional table containing values of $A$. Each cell then returns a value for the normalization constant $A$ for specific $a$, $b$, and $c$ values. This table is, of course, not continuous since there is a limited amount of memory available and the computation time would increase too much as well. To evaluate $A$ for specific $a$, $b$, and $c$, one can interpolate in three dimensions. In this paper, the method trilinear interpolation is used. Given specific $a$, $b$, and $c$ that are not in the table (but are in the given intervals), the surrounding points $a_1 < a < a_2$, $b_1 < b < b_2$, and $c_1 < c < c_2$ are found with the use of the bisection index finding. Here $a_1$, $a_2$, $b_1$, $b_2$, $c_1$, and $c_2$ are values that can be found in the pre-computed table. The point $(a,b,c)$ is now surrounded by a cube. Using linear interpolation, $A(a,b,c)$ can be found by first projecting the cube onto a square, the square onto a line, and the line onto a point. %FIGUUR TER VERDUIDELIJKING?
+The code that is used in this exercise is given below
+
+\lstinputlisting{Q2h.py}
+\lstinputlisting[firstline=649,lastline=710]{functions.py}
+
+The output of the code is an interpolated value of $A(a,b,c)$ where $a$, $b$, and $c$ are the random numbers generated at the beginning of the program.
+
+\lstinputlisting{textfiles/3Dinterpolation.txt}
+
+It can be seen that this result is good up to 4 decimals by comparing it with the result found in section 2.1.

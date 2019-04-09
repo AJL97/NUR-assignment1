@@ -1,0 +1,12 @@
+\subsection{Sampling Distribution of 1000 Haloes}
+The sampling of satellite positions can be also done for multiple haloes. In this exercise, 1000 haloes are produced where each halo contains 100 satellite galaxies. The $r$ coordinates are again sampled with the same method as describe above. For each 100 satellites, the obtained $r$ coordinates are binned and added to the total satellite array. This binned result is then normalized by dividing each bin by the total number of produced haloes times its bin width. The average number of satellites is then overplotted by the function $N(x) = n(x)4\pi x^2$, which is the total number of satellites at radius $x$. \\
+The code that has been used for this exercise is shown below.
+
+\lstinputlisting{Q2e.py}
+The output is a log-log histogram of the binned haloes with $N(x)$ over-plotted.\\
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{plots/samples_dis.png}
+\caption{The sample distribution of the average number of satellites at a given $r$ coordinate.}
+\end{figure}
+The actual distribution $N(x)$ and the binned haloes obtained from rejection sampling seem to match quite well. 

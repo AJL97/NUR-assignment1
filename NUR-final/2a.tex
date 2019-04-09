@@ -1,0 +1,38 @@
+\section{Number Density Profile}
+
+The number density profile of satellite galaxies are generally fitted with the NFW profile, when assuming that the satellites trace the dark matter halo mass. %REFERENTIE???
+In this study, however, the number density profile shown below, oughts to be a better match from close by the centre to substantially outside the virial radius,
+
+\begin{equation}
+n(x) = A\langle N_{sat} \rangle \left(\frac{x}{b}\right)^{a-3}\exp\left[-\left(\frac{x}{b}\right)^c\right]
+\end{equation}
+here $A$ is the normalization factor, $\langle N_{sat} \rangle$ is the average total number of satellites, and $a$, $b$, and $c$ are constants that, in this section, are generated randomly in the intervals $1.1 < a < 2.5$, $0.5 < b < 3$, and $1.5 < c < 4$. These random numbers are generated with the previously describe pseudo RNG. To convert the float to a float in different intervals, one can simply translate it via
+\begin{gather*}
+0 < x_i < 1\\
+0 < x_i(b-a) < b-a\\
+a < x_i(b-a) + a < b
+\end{gather*}
+So first multiply your random float by the difference of the maximum and the minimum of the interval, and then add the minimum of the interval to it. \\
+\subsection{Romberg Integration}
+After having generated the three random numbers $a$, $b$, and $c$,\footnote{NOTE: in the code these values are the instances \texttt{d1}, \texttt{d1}, and \texttt{d3}, but will be referred to as $a$, $b$, and $c$ throughout this paper} it is possible to integrate the number density profile over $x$, $y$, and $z$, or in spherical coordinates $r$, $\theta$, and $\phi$. By converting the 3-dimensional cartesian integral to the 3-dimensional spherical integral, an extra factor of $r^2 \sin(\theta)$ appears, such that
+\begin{equation}
+\int\int\int_V n(r) \mathrm{d}V = 
+\int_0^{2\pi} \mathrm{d}\phi \int_0^{\pi} \sin(\theta)\mathrm{d}\theta \int_{r_{min}}^{r_{max}} n(r)r^2 \mathrm{d}r = \langle N_{sat} \rangle
+\end{equation}
+Here, $\phi$, $\theta$, $r$, and $n(r)$ are all independent of each other, therefore the integral can be seen as a multiplication of three individual integrals. The first two integrals can be computed analytically to simplify things. The integral over $\phi$ gives a factor of $2\pi$, and the integral over $\theta$ gives a factor of 2. $r_{min}$ and $r_{max}$ are 0 and 5 respectively. This is because when converting $x$ to $r$ ($x = \frac{r}{r_{vir}}$), the virial radius cancels out, and thus leaves $r_{max} = x_{max} = 5$ and $r_{min} = x_{min} = 0$. The final remark on the equation above is that the term $\langle N_{sat} \rangle$ is constant and on both sides of the equation, meaning that they cancel each other. This gives the final integral of,
+\begin{equation}
+4\pi \int_{0}^{5} \left(\frac{1}{b}\right)^{a-3} (r)^{a-1} \exp\left[-\left(\frac{r}{b}\right)^c\right] \mathrm{d}r = A^{-1}
+\end{equation}
+So the normalization constant $A$ is one divided by the integral. This integral can be solved numerically with the use of the Romberg Algorithm. The Romberg algorithm implemented in the code makes use of an analogue to Neville's algorithm where some initial integrations are made that use the trapezoid rule,
+\begin{equation*}
+\int_a^b f(x) \mathrm{d}x = h\left(\frac{f_0}{2}+\sum_{i=1}^{N-1}f_i + \frac{f_N}{2}\right)
+\end{equation*}
+Romberg integration uses this trapezoid rule with different spacings, starting at the biggest spacing, $h_0$, and ending with the smallest spacing $h_n$, where $n$ is the number of initial functions used. These initial functions are then combined with a method analogue to Neville's algorithm.
+
+The code that is used is shown below
+\lstinputlisting{Q2a.py}
+\lstinputlisting[firstline=98,lastline=164]{functions.py}
+The code outputs the normalization constant A given certain a, b, and c.
+
+\lstinputlisting{textfiles/integration.txt}
+

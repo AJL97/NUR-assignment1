@@ -1,0 +1,15 @@
+\section{Useful functions}
+\subsection{Poisson Distribution}
+The Poisson distribution for any integer $k$ is given by:
+\begin{equation}
+P_{\lambda}(k) = \frac{\lambda^k e^{-\lambda}}{k!}
+\end{equation}
+With $\lambda$ being the mean. The code is, however, limited by a certain memory, namely one can only use 64-bit integers or floats. If 64-bit integers are used, then the maximum value that can be generated is $2^{64} - 1$. The factorial of integer $k$ can exceed this maximum value if integer $k$ is bigger than 20. However, for floats it works different.  The maximum of a 64-bit float is ... %OPZOEKEN WAT HET MAXIMUM IS
+Therefore, the python code converts the input integer $k$ into a 64-bit float, allowing it to create relatively high accuracy in generating the Poisson value. The code that is used is shown below. 
+\lstinputlisting{Q1a.py}
+\lstinputlisting[firstline=30,lastline=57]{functions.py}
+
+\newpage
+The code outputs the Poisson value given certain mean, $\lambda$, and $k$ integers.
+
+\lstinputlisting{textfiles/poisson.txt}

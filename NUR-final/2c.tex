@@ -1,0 +1,25 @@
+\subsection{Differentiation}
+Differentiation of a function can be done best with Ridder's method to attain highest accuracy. Ridder's method is a combination of central differences and a method analogue to Neville's algorithm. The central differences is given by,
+\begin{equation*}
+\frac{\mathrm{d}f}{\mathrm{d}x} = \frac{f(x+h) - f(x-h)}{2h} + \mathcal{O}(h^2f^{'''})
+\end{equation*}
+Ridder's method starts by first creating $n$ initial functions, where the first initial functions has spacing $h$, and the last initial function has spacing $\frac{h}{d^n}$, where $d$ is a decrease factor (e.g. $d = 2$). Afterwards these initial central differences are, again, combined with a method that is analogue to Neville's algorithm.\\
+
+Since the function $n(x)$ is given, it is also possible to analytically compute the derivative of $n(x)$ at $x=b$. This derivative is given by:
+
+\begin{gather*}
+\frac{\partial n(x)}{\partial x} = A\langle N_{sat} \rangle \left\lbrace\frac{a-3}{x}\left(\frac{x}{b}\right)^{a-3} \exp\left[-\left(\frac{x}{b}\right)^c\right]- \left(\frac{x}{b}\right)^{a-3}\exp\left[-\left(\frac{x}{b}\right)^c\right]\left(\left(\frac{x}{b}\right)^c \frac{c}{x}\right)\right\rbrace\\
+= A\langle N_{sat} \rangle \left(\frac{x}{b}\right)^{a-3}\exp\left[-\left(\frac{x}{b}\right)^c\right]\left\lbrace\frac{a-3}{x} - \left(\frac{x}{b} \right)^2\frac{c}{x}\right\rbrace
+\end{gather*}
+\begin{equation}
+\frac{\partial n(x)}{\partial x}= \frac{n(x)}{x}\left\lbrace a-3-c\left(\frac{x}{b}\right)^c\right\rbrace
+\end{equation}
+
+The code both computes the derivative analytically and numerically. 
+\lstinputlisting{Q2c.py}
+\lstinputlisting[firstline=354,lastline=407]{functions.py}
+
+The code outputs the numerical derivative as well as the analytical derivative
+\lstinputlisting{textfiles/differentiation.txt}
+
+It can be seen that the analytical and numerical derivatives are the same up to order $10^{-12}$. Thus, the numerical differentiation method works quite well.

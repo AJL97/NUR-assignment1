@@ -1,0 +1,50 @@
+\subsection{Pseudo Random Number Generator}
+
+This basic random number generator works as follows. First a seed is feeded into the Linear Congruential Generator (LCG). The LCG works via the algorithm,
+\begin{equation}
+x_{new} = (a\cdot x_{prev} + c) \mathrm{ \ \ \ mod \ \ \ } m
+\end{equation}
+Here $x_{prev}$ is the previous random number integer created by the LCG, $a$, $c$, $m$ are constants that can be set by the user, and $x_{new}$ is the newly created random number. For this pseudo RNG these parameters are set to $a = 1664525$, $c = 1013904223$, $m = 2^{32}$. These specific values are generally 'good' parameter values for the LCG. The starting number for the LCG is also known as the '\textit{seed}' and has to be initialized just one time for the whole program. This seed value is in this program set to $x_0 = 5283597438$ (just a 'random' number picked by myself, and it could be changed by the user to anything). Note that the output and input of the LCG are both integers limited by $m$. The output of the LCG is subsequently the input for the XOR-shift generator. The XOR-shift algorithm is as follows,
+\begin{gather}
+x_{new}  = x_{new} \wedge (x_{new} << a) \\
+x_{new} =  x_{new} \wedge (x_{new} >> b)\\
+x_{new} =  x_{new} \wedge (x_{new} << c)
+\end{gather} 
+Here $a$, $b$, and $c$ are, again, constants that can be set by the user. The most optimal values for these parameters are $a =21$, $b=35$, and $c = 4$. The operators $<<$ and $>>$ are shift operator where the bits of an integer are shifted $a$, $b$, or $c$ places to the left or right respectively. The $\wedge$ operator is also known as the '\textit{XOR}-operator', where the bits of integer of the left of the operator is compared to bits of the integer to the right of the operator. Table \ref{XOR-table} shows how the bits of the newly created integer change when an XOR operator is used. 
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$x_1$ & $x_2$ & XOR\\
+\hline
+0 & 0 & 0\\
+1 & 0 & 1 \\
+0 & 1 & 1 \\
+1 & 1 & 0\\
+\hline
+\end{tabular}
+\label{XOR-table}
+\caption{The XOR-operation table. Operating XOR on $x_1$ and $x_2$ gives the binary value that belongs to this specific combination of $x_1$ and $x_2$}
+\end{table}
+The output of the XOR-shift generator is, again, an integer. The conversion of this integer to a float between the 0 and 1 is done in a special way. First the integer is converted to a string. The string is then reversed to create an even more random number. Finally, the string '0.' is added to the string integer and it is then converted back to a 64 bit float. The reason for reversing the integer string in the second step is because the last digits of a random number that comes out of the XOR-shift generator vary more than the first digits of this random number. This is because the bits at the beginning of a bit array are more affected by the shifting and XOR-operator than the bits at the end of the bit-array. %MEER UITLEG!!!
+The code used for this exercise is shown below.
+\lstinputlisting{Q1b.py}
+\lstinputlisting[firstline = 59, lastline = 96]{functions.py}
+
+The results are shown in figures 1 and 2. In figure 1 the old random numbers $x_i$ are plotted against the new random numbers $x_{i+1}$, in total there are 1000 random numbers generated. Figure 2 shows the histogram of a million generated random numbers.
+\\
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.55]{./plots/rng_1000.png}
+\caption{1000 random generated numbers between 0 and 1, where $x_{i+1}$ is the new random number and $x_i$ is the current random number.}
+\label{rng_1000}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.55]{./plots/rng_mil.png}
+\label{hist_mil}
+\caption{The histogram of a million distributed random numbers. }
+\end{figure}
+
+It can be seen that the histogram looks quite uniform and that the distribution of $x_i$ and $x_{i+1}$ is also quite spread, both indicating that the pseudo random number generator is succesfully pseudo random. 
+\newpage

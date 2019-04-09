@@ -1,0 +1,22 @@
+\subsection{Largest radial bin}
+
+The code used in section 2.5 saved the generated satellites of each halo in a nested array, together with the binned values of all the satellites in all haloes. The largest radial bin can be found with the latter one. When having found the largest radial bin, it is possible to find all satellites that fall in this bin. The array with all the $r$ coordinates of all satellites that fall in the largest bin is then sorted by using quicksort. In the code there are two quicksort possibilities. Either sorting by array or by index. In this exercise it is not of necessity to sort by index, though sorting by index will be useful for later exercises. The sorted array can now return percentiles very easily. The percentile of a sorted array can be found by using the equation,
+
+\begin{equation*}
+P = \frac{n}{N}\cdot 100
+\end{equation*}
+where $n$ is the rank, and $N$ is the length of the array. This can, of course, also be rearranged to find the rank $n$ of the array given a percentile. When the rank is not an integer, the output can be calculated with the use of linear interpolation. If, for example the rank is 5.75, the bisection algorithm will find that the answer lies between \texttt{array[5]} and \texttt{array[6]}, where 5 and 6 are the indexes. The code then simply interpolates linear between these values to find the $r$ value corresponding to rank 5.75.\\
+With the saved data it is also possible to find the number of galaxies that fall in this largest radial bin in each halo. The number of satellites that fall within this radial bin is then counted. From these results, a histogram can be plotted of the number of galaxies in this radial bin in each halo. The code used to produce this is shown below.
+
+\lstinputlisting{Q2g.py}
+\lstinputlisting[firstline=543,lastline=647]{functions.py}
+
+The code outputs the median, 16th, and 84th percentile of the sorted array, together with a plot showing the histogram where the Poisson is over-plotted. The mean of this poisson-distribution is equal to the mean number of galaxies in this largest radial bin.
+
+\lstinputlisting{textfiles/percentiles.txt}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{plots/radial_bin.png}
+\caption{The number of galaxies in each halo that belong to the maximum radial bin of all haloes combined. The red dots represent the over-plot of a Poisson distribution, with it's mean equal to the mean number of galaxies in this maximum radial bin.}
+\end{figure}
+It can be seen from the graph that the histogram seems to show quite some similarity with the poisson distribution, within reasonable uncertainty. This indicates that the generated $r$ coordinates, that statistically follow the satellite profile (eq. 6), are distributed as a poissonian around the satellite profile.
